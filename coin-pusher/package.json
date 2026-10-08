@@ -1,0 +1,43 @@
+{
+  "name": "coin-pusher-magic-arcade",
+  "version": "1.0.0",
+  "private": true,
+  "description": "离线 HTML5 Matter.js 推币机游戏",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "test": "node --test tests/*.test.cjs"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.example.coinpusher",
+    "productName": "CoinPusher",
+    "files": [
+      "index.html",
+      "libs/**/*",
+      "src/**/*",
+      "electron/**/*",
+      "design/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    }
+  }
+}

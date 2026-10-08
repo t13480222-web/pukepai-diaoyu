@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>大魔术师 · 叠币剧场 R7</title>
+<link rel="stylesheet" href="src/ui/style.css?v=R7">
+</head>
+<body>
+<main class="arcade">
+  <header class="marquee">
+    <div class="crest" aria-hidden="true"><i></i><b>✦</b></div>
+    <div><p>THE GREAT MAGICIAN</p><h1>大魔术师</h1><span>魔法剧场 · 推币机</span></div>
+    <div class="edition"><i></i> 单机游戏 <small>叠币剧场 R7</small></div>
+  </header>
+  <div class="game-layout">
+    <section class="cabinet" aria-label="机械台面">
+      <div class="cabinet-top"><span>MAGIC SHOW</span><span>01 — PLAYER</span></div>
+      <canvas id="gameCanvas" aria-label="上方图案轮盘，中部雨刷与钉板，下方图案通道及水平推盘"></canvas>
+      <div class="cabinet-foot"><span>✦ LUCK IS IN YOUR HANDS ✦</span><span id="tableState">等待启动</span></div>
+    </section>
+    <aside class="console">
+      <section class="credit-display"><span>CREDIT · 游戏币</span><strong id="credits">100</strong><div><span>前沿收回 <b id="paid">0</b></span><span>侧边回落 <b id="lost">0</b></span></div></section>
+      <section class="spin-panel" aria-label="SPIN机会缓存"><div class="panel-caption"><span>SPIN / 待开奖机会</span><strong id="spinCount">0 / 4</strong></div><div id="spinSlots" class="spin-slots"><i>1</i><i>2</i><i>3</i><i>4</i></div><p id="spinHint">命中币斗储存一次机会</p></section>
+      <section class="payout-panel" aria-label="自动出币状态">
+        <div class="panel-caption"><span>HOPPER / 自动出币</span><i id="hopperLamp"></i></div>
+        <div class="payout-count"><strong id="remaining">0</strong><span>剩余待出 / 枚</span></div>
+        <progress id="payoutProgress" max="1" value="0"></progress>
+        <div class="payout-detail"><span>本轮应出 <b id="payoutTotal">0</b></span><span>已出 <b id="payoutDone">0</b></span></div>
+        <p id="payoutHint">奖励从顶部投币口逐枚落下。</p>
+      </section>
+      <section class="physical-controls">
+        <div class="control-group"><button id="wiperButton" class="wiper-button" aria-pressed="false"><span class="sweep-icon" aria-hidden="true">Ⅱ</span><b>雨刷摆动</b><small>双杆摆动 · 再点锁定</small></button><div id="wiperState">角度已锁定</div></div>
+        <div class="start-ring"><button id="coinButton" class="start-button"><span>START</span><b>投币</b><small>SPACE</small></button></div>
+        <p id="status" role="status">调整雨刷角度，再按 START。</p>
+        <div class="utility"><button id="pauseButton">暂停 <kbd>P</kbd></button><button id="soundButton" aria-pressed="false">音效关</button><button id="helpButton">规则</button></div>
+      </section>
+      <section class="history"><div class="panel-caption">WIN / 最近奖励</div><strong id="win">0 <small>枚</small></strong><ol id="winHistory"><li>币斗命中后，主屏转动结算。</li></ol></section>
+      <button id="resetButton" class="reset-button">重新开局 · 恢复 100 枚</button>
+      <p class="small-note">仅虚拟币，无充值或兑换。<br>前沿掉币返还余额，两侧落币回收至机器。</p>
+    </aside>
+  </div>
+  <footer>单机模拟 · 本地离线运行 <span id="version">R7 · 2026.10.08</span></footer>
+</main>
+<dialog id="rulesDialog"><button id="closeRules" class="close">×</button><h2>双杆调角度，叠币推大奖</h2><p>点击「雨刷摆动」改变角度，再点一次锁定。START 或空格键投一枚币。点击台面不会投币。</p><h3>落点、底分与奖品</h3><p>币撞击钉子改变路径，经过下方图案通道时，该图案底分 +1，然后落在水平台面。命中移动币斗可获得一次主屏转动；当前转盘之外，最多可缓存 4 次。转盘运行时允许继续投币；中奖提示及出币期间禁止投币、关闭 SPIN 感应。发完后自动恢复。奖励币不触发新的抽奖。</p><p>普通横线三连奖励 = 对应底分 ×3；普通斜线三连 = 底分 ×2。中排三个魔术师为 JP1，上排为 JP2，下排为 JP3；九格相同为 ALL。斜线魔术师触发小玛丽或叠叠乐。</p><h3>自动出币与推盘</h3><p>中奖分数按 1 分 =1 枚虚拟币转成待发奖励，从顶部投币口逐枚落下；这时不会直接增加余额。推盘将币挤过前沿，才返还到游戏币余额。侧边和前沿两侧暗槽回落不返还。中奖 100 枚仍发出 100 枚，通过加宽暗槽减少正面回收；不对正面掉币做随机扣除。每批结果受现有币堆和落点影响，不是固定返还比例。台面满时出币会等待，待发奖励不会丢失。</p><h3>叠叠乐</h3><p>获得 6 次免费 START，通过图案通道累计命中数。六次用完且代币落定，或 30 秒结束后结算：各图案命中数 × 当前底分之和；六次同图案加倍。</p><p class="rules-note">外观与奖型参考通立动漫《大魔术师》。币堆为 Matter.js 平面碰撞加支撑高度的 2.5D 模拟。本版按你的要求采用虚拟游戏币返还；倍率、换币率、小游戏触发细节是可配置的模拟规则，尚非原机程序的精确复刻。</p></dialog>
+<script src="libs/matter.min.js"></script>
+<script src="src/config.js?v=R7"></script>
+<script src="src/physics.js?v=R7"></script>
+<script src="src/rewards.js?v=R7"></script>
+<script src="src/ui/lottery.js?v=R7"></script>
+<script src="src/ui/renderer.js?v=R7"></script>
+<script src="src/main.js?v=R7"></script>
+</body>
+</html>
